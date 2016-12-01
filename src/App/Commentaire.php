@@ -1,6 +1,6 @@
 <?php
 
-  class Commentaire {
+  class Commentaire implements Enabled {
 
     public static $compteurCom10 = 0; 
     public static $notesCom = []; 
@@ -16,6 +16,7 @@
     protected $createdByAlex;
     protected $produit;
     protected $trust;
+    protected $enabled = false;
 
 
   /**
@@ -164,6 +165,16 @@
         return $this;
     }
 
+    public function setEnabled($enable) 
+    {
+        $this->enabled = $enable;
+    } 
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+
     /**
     *   CONSTRUCTOR 
     */
@@ -175,6 +186,7 @@
             $this->produit = $produit;
             $this->visible = false;
             $this->date = date('d/m/Y');
+            $this->setEnabled(true);
 
 
             if($note>10) {

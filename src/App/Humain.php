@@ -386,21 +386,26 @@ class Humain {
     /**
     *
     */
-    public function showPanier() {
-
+    public function showPanier($panier = null) {
+      if ($panier) {
+        $panier = $panier;
+      } else {
+        $panier = $this->panier;  
+      }
       $html = "";
-      if($this->panier === null){
-          $html = "<p>Panier Vide</p>";
+      if($panier === null){
+        $html = "<p>Panier Vide</p>";
       }else{
-      foreach ($this->panier as $valuePanier) {
-        $html .= "<div class='jumbotron'>
-          <p>{$valuePanier->getTitre()}</p>
-          <p>{$valuePanier->getSummary()}</p>
-          <p>{$valuePanier->getPrix()}€</p>
-          <p>{$valuePanier->getQuantite()}</p>
-        </div>";
-      }
-      }
+        $html = "<div class='jumbotron'>";
+        $html .= "<h2>Panier</h2>";
+        foreach ($panier as $valuePanier) {
+            $html .= "<h3>{$valuePanier->getTitre()}</h3>
+            <p>{$valuePanier->getSummary()}</p>
+            <p>{$valuePanier->getPrix()}€</p>
+            <span class='badge'>{$valuePanier->getQuantite()}</span>";
+        }
+            $html .= "</div>";
+        }
       return $html;
 
     }

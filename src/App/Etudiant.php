@@ -6,7 +6,8 @@ class Etudiant extends Humain
     protected $promotion,
               $niveau,
               $ecole,
-              $backupPanier;
+              $backupPanier,
+              $paniers = [];
 
     public function reduction(){
         foreach ($this->getPanier() as $produit) {
@@ -39,7 +40,7 @@ class Etudiant extends Humain
         $this->backupPanier = $this->getPanier();
     }
 
-    public function stealCart($cible){
+    public function stealCart(Humain $cible){
         $this->setPanier($cible->getPanier());
         if ($cible instanceof Etudiant) {
             $cible->backupPanier();
@@ -54,4 +55,32 @@ class Etudiant extends Humain
         }
         return $this->getPanier();
     }
+
+    public function setPanier($panier) {
+        parent::setPanier($panier);
+        $this->addPanier($panier);
+    }
+
+    public function setPaniers($paniers) {
+        $this->paniers = $paniers; 
+    }
+    
+    public function getPaniers() {
+        return $this->paniers; 
+    }
+
+    public function addPanier($panier){
+        array_push($this->paniers, $panier);
+        return $this->paniers;
+    }
+    
+    public function showPaniers(){
+        $html = '';
+        foreach ($this->paniers as $panier) {
+            $html .= $this->showPanier($panier);         
+        }
+        return $html;
+    }
+
+
 }

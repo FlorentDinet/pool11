@@ -22,10 +22,15 @@
 
 // inclusion de ma Classe Humain (fichier)
 include "src/App/Humain.php";
+include "src/App/Enabled.php";
 include "src/App/Produit.php";
+include "src/App/Smartphone.php";
 include "src/App/Commentaire.php";
 include "src/App/Manager.php";
 include "src/App/Etudiant.php";
+include "src/App/CheapProduit.php";
+include "src/App/ProduitTTC.php";
+include "src/App/Tablette.php";
 
 // création d'un objet (ou instance de classe)
 $alexandre = new Humain();
@@ -178,6 +183,12 @@ echo $alexandre->showPanier();
 $alexandre->gestionPanier($produit);
 echo $alexandre->showPanier();
 
+$iPhone = new Smartphone();
+$iPhone->setPrix(699);
+$iPhone->setQuantite(100);
+
+$iPhone->setPoid(100);
+$iPhone->setCapacite(32);
 
 
 /*
@@ -241,6 +252,7 @@ $chaineHiFI = new Produit("chaine HiFi","Fugiat et aute aute velit elit.",-1,23,
        $chaineHiFI = new Produit("chaine HiFi","Fugiat et aute aute velit elit.",1,-1,20,["gris","metal"],["enceintes","cables"]);
    } catch (Exception $e){
     echo "<p>".$e->getMessage()."</p>";
+   } finally {
     $chaineHiFI = new Produit("chaine HiFi","Fugiat et aute aute velit elit.",1,54,20,["gris","metal"],["enceintes","cables"]);
    }
 }
@@ -263,6 +275,32 @@ echo "total panier de Régis : ".$regis->calculPanier() . "<br />";
 
 $regis->resumePanier();
 
+
+echo $regis->showPaniers();
+
+try {
+    $racletteAGlace = new CheapProduit("chaine HiFi","Fugiat et aute aute velit elit.",1,501,20,["gris","metal"],["enceintes","cables"]);
+} catch (Exception $e) {
+    echo "<p>".$e->getMessage()."</p>";
+}
+
+$produitRelou = new ProduitTTC(23,500);
+echo $produitRelou->showItem();
+
+
+$iPhone= new Smartphone("iPhone5","16Go",150,[980,768]);
+
+$tablette1= new Tablette("aiePadePrau","horizontal",100,"32Go",2,[1920,1080],["Wifi"],"Vert");
+
+$tablette2= new Tablette("universPhablet7","vertical",200,"64Go",6,[1900,1600],["Wifi"],"Vert");
+
+echo '<pre>';
+echo(Tablette::comparerPoid($tablette1,$tablette2));
+echo '</pre>';
+
+echo '<pre>';
+echo(Produit::comparerResolution($tablette1,$iPhone));
+echo '</pre>';
 
 // BDD OO avec PDO
 

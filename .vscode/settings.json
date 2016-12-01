@@ -1,5 +1,7 @@
 // Placez vos paramètres dans ce fichier pour remplacer les paramètres par défaut et les paramètres utilisateur.
 {
     "window.reopenFolders": "all",
-    "telemetry.enableTelemetry": false
+    "telemetry.enableTelemetry": false,
+    // Pointe vers l'exécutable PHP.
+    "php.validate.executablePath": "/Library/php7.0.12/bin/php"
 }

@@ -3,7 +3,7 @@
 /**
 *
 */
-class Produit {
+class Produit implements Enabled {
 
   /**
    * ATTRIBUTS
@@ -16,9 +16,31 @@ class Produit {
   protected $taxe;
   protected $colors = [];
   protected $accessoire = [];
- 
-  
-  
+  protected $enabled = false; 
+
+  // CONSTRUCT
+
+  public function __construct(
+      string $titre = "titre",
+      string $summary = "resume",
+      int $quantite = 0,
+      int $prix = 0,
+      int $taxe = 20,
+      array $colors = [],
+      array $accessoire = [],
+      bool $enabled = false
+    )
+    {
+      $this->setTitre($titre);
+      $this->setSummary($summary);
+      $this->setQuantite($quantite);
+      $this->setPrix($prix);
+      $this->setTaxe($taxe);
+      $this->setColors($colors);
+      $this->setAccessoire($accessoire);
+      $this->setEnabled(true);
+    }
+
   /**
    * GETTERS & SETTERS
    */
@@ -97,7 +119,20 @@ class Produit {
     $this->accessoire = $accessoire;
   }
 
+  public function setEnabled($enable) 
+  {
+    $this->enabled = $enable;
+  } 
+  public function getEnabled()
+  {
+    return $this->enabled;
+  }
 
+
+
+
+
+  // METHODES
 
   public function getAccessoire(){
     return $this->accessoire;
@@ -131,25 +166,20 @@ class Produit {
         array_merge($this->accessoire, $newAccessoire);
     }
 
-    public function __construct(
-      string $titre = "titre",
-      string $summary = "resume",
-      int $quantite = 0,
-      int $prix = 0,
-      int $taxe = 20,
-      array $colors = [],
-      array $accessoire = []
-    )
-    {
-      $this->setTitre($titre);
-      $this->setSummary($summary);
-      $this->setQuantite($quantite);
-      $this->setPrix($prix);
-      $this->setTaxe($taxe);
-      $this->setColors($colors);
-      $this->setAccessoire($accessoire);
-    }
+    // METHODES STATIQUES
 
+    public static function comparerResolution(Tablette $tablette, Smartphone $smartphone)
+    {
+      $maxResoSmart = max($smartphone->getResolution());
+      $maxResoTable = max($tablette->getResolution());
+
+      if($maxResoSmart>$maxResoTable) {
+        return $smartphone->getTitre();
+      } else {
+        return $tablette->getTitre();
+      }
+
+    }
 
 
    
