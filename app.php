@@ -5,8 +5,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+        body {
+           padding : 50px;
+        }
+        </style>
     </head>
     <body>
+<div class="container">
 <?php
 
 /**
@@ -17,6 +23,9 @@
 // inclusion de ma Classe Humain (fichier)
 include "src/App/Humain.php";
 include "src/App/Produit.php";
+include "src/App/Commentaire.php";
+include "src/App/Manager.php";
+include "src/App/Etudiant.php";
 
 // création d'un objet (ou instance de classe)
 $alexandre = new Humain();
@@ -209,10 +218,63 @@ echo '<p>Total : ' . $alexandre->calculPanier() . '€</p>';
 */
 
 
+$comment1 = new Commentaire("Contenu du commentaire 1", 6, $alexandre,$produit);
+$comment2 = new Commentaire("Contenu du commentaire 2", 1, $francois,$produitTwo);
+
+echo "<pre>";
+echo Commentaire::whosBestComment($comment1,$comment2);
+echo "</pre>";
+
+try{
+$comment3 = new Commentaire("Contenu du commentaire 3", -1, $francois,$produitTwo);
+} catch(Exception $e) {
+    echo "<p>".$e->getMessage()."</p>";
+    $comment3 = new Commentaire("Contenu du commentaire 3", 1, $francois,$produitTwo);
+}
+
+
+try{
+$chaineHiFI = new Produit("chaine HiFi","Fugiat et aute aute velit elit.",-1,23,20,["gris","metal"],["enceintes","cables"]);
+} catch (Exception $e){
+    echo "<p>".$e->getMessage()."</p>";
+   try{
+       $chaineHiFI = new Produit("chaine HiFi","Fugiat et aute aute velit elit.",1,-1,20,["gris","metal"],["enceintes","cables"]);
+   } catch (Exception $e){
+    echo "<p>".$e->getMessage()."</p>";
+    $chaineHiFI = new Produit("chaine HiFi","Fugiat et aute aute velit elit.",1,54,20,["gris","metal"],["enceintes","cables"]);
+   }
+}
+
+$florent = new Humain();
+$florent->setNom('Dinet');
+$florent->setPrenom('Florent');
+
+// $florent->setEmail('adolf@hitl.er');
+
+$regis = new Etudiant("Regis","Favrichon");
+$regis->setPanier([$produit,$produitTwo,$produitTwo]);
+echo $regis->showPanier();
+echo "<pre>";
+var_dump($regis);
+echo "</pre>";
+echo "total panier de Régis : ".$regis->calculPanier() . "<br />";
+$regis->reduction();
+echo "total panier de Régis : ".$regis->calculPanier() . "<br />";
+
+$regis->resumePanier();
+
+
+// BDD OO avec PDO
+
+
+/*$db = new PDO('mysql:host=localhost;dbname=php4', 'root', 'root');
+$manager = new Manager($db);
+
+$manager->add($florent);*/
 
 
 
 ?>
-
+</div>
     </body>
 </html>

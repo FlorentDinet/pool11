@@ -2,13 +2,20 @@
 
   class Commentaire {
 
+    public static $compteurCom10 = 0; 
+    public static $notesCom = []; 
+    public static $nombreDeCom = 0;
+
     protected $id;
     protected $content;
+    protected $countEditContent = 0;
     protected $note;
     protected $date;
     protected $visible;
     protected $humain;
+    protected $createdByAlex;
     protected $produit;
+    protected $trust;
 
 
   /**
@@ -55,7 +62,7 @@
     public function setContent($content)
     {
         $this->content = $content;
-
+        $this->countEditContent++;
         return $this;
     }
 
@@ -103,7 +110,9 @@
     public function setHumain($humain)
     {
         $this->humain = $humain;
-
+        if($humain->getPrenom() === "Alexandre") {
+            $this->createdByAlex = true;
+        }
         return $this;
     }
 
@@ -130,9 +139,79 @@
 
         return $this;
     }
+    
+    /**
+     * Get the value of trust
+     *
+     * @return mixed
+     */
+    public function getTrust()
+    {
+        return $this->trust;
+    }
+
+    /**
+     * Set the value of trust
+     *
+     * @param mixed trust
+     *
+     * @return self
+     */
+    public function setTrust(bool $trust)
+    {
+        $this->trust = $trust;
+
+        return $this;
+    }
+
+    /**
+    *   CONSTRUCTOR 
+    */
+
+    public function __construct($content, $note, Humain $humain, Produit $produit) {
+            $this->content = $content;
+            $this->note = $note;
+            $this->humain = $humain;
+            $this->produit = $produit;
+            $this->visible = false;
+            $this->date = date('d/m/Y');
 
 
-    public function __construct() {
+            if($note>10) {
+                self::$compteurCom10++;
+            }
+
+            if ($note<0 | $note>20) {
+                throw new Exception('La note doit être comprise entre 0 et 20');
+            }
+
+            array_push(self::$notesCom,$note);
+            echo "Moyenne des notes des commentaires : " . self::moyNoteCom() . "<br />";
+
+            self::$nombreDeCom++;
+            if (self::$nombreDeCom>7){
+                throw new Exception("Erreur, nombre de commentaire maximal atteint", 1);
+                
+            }
+
+    }
+
+    // Static function
+
+    public static function whosBestComment(Commentaire $commentaire1, Commentaire $commentaire2) {
+        if($commentaire2->note>$commentaire1->note) {
+            return '$commentaire2';
+        } else if($commentaire1->note>$commentaire2->note) {
+            return '$commentaire1';
+        } else {
+            return 'error';
+        }
+    }
+
+    public static function moyNoteCom() {
+        $moy = 0;
+        $moy = array_sum(self::$notesCom)/count(self::$notesCom);
+        return $moy;
     }
 
   }

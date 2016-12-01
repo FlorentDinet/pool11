@@ -53,6 +53,9 @@ class Produit {
 
   // quantite
   public function setQuantite($nb){
+    if($nb<0) {
+      throw new Exception('La quantité doit être un nombre positif');
+    }
     $this->quantite = $nb;
   }
 
@@ -62,6 +65,9 @@ class Produit {
 
   // prix
   public function setPrix($nb){
+    if($nb<0) {
+      throw new Exception('Le prix doit être un nombre positif');
+    }
     $this->prix = $nb;
   }
 
@@ -125,7 +131,24 @@ class Produit {
         array_merge($this->accessoire, $newAccessoire);
     }
 
-
+    public function __construct(
+      string $titre = "titre",
+      string $summary = "resume",
+      int $quantite = 0,
+      int $prix = 0,
+      int $taxe = 20,
+      array $colors = [],
+      array $accessoire = []
+    )
+    {
+      $this->setTitre($titre);
+      $this->setSummary($summary);
+      $this->setQuantite($quantite);
+      $this->setPrix($prix);
+      $this->setTaxe($taxe);
+      $this->setColors($colors);
+      $this->setAccessoire($accessoire);
+    }
 
 
 

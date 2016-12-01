@@ -8,6 +8,10 @@ class Humain {
 
     /**
     * Attributs de classe
+    */
+    protected $id;
+
+    /**
     * @var Couleur des yeux
     */
     protected $couleursYeux;
@@ -54,8 +58,27 @@ class Humain {
     protected $sms = [];
 
 
-  protected $panier = [];
+    protected $panier = [];
 
+    protected $email = [];
+
+    // Attribut static
+    protected static $compteurHumain = 0;
+
+    // Constante de class_exists
+    const NOMBRE_HUMAIN_MAX = 10;
+    const EMAILS_INTERDITS = [
+        "pauljohnson@caramil.com",
+        "allah@akb.ar",
+        "sadam@husse.in",
+        "adolf@hitl.er",
+        "pere@no.el",
+        "anny@cor.dy",
+        "jean-louis@fanDeChaussettes.fr",
+        "kevin666@hotmail.fr",
+        "angelKitty@hotmail.fr",
+        "darkAngelKitty@hotmail.fr",
+    ];
 
     /**
     * Fonction = Méthode
@@ -152,6 +175,66 @@ class Humain {
     }
     public function getPanier(){
         return $this->panier;
+    }
+    
+    public function setPoid($poid){
+        $this->poid = $poid;
+    }
+    public function getPoid(){
+        return $this->poid;
+    }
+
+    public function setId($id){
+        $this->id = $id;
+    }
+    public function getId(){
+        return $this->id;
+    }
+    
+    public function setEmail($email){
+        foreach (self::EMAILS_INTERDITS as $emailInterdit) {
+           if($email == $emailInterdit) {
+               throw new Exception("Cet email est interdit", 1);
+           }
+        }
+        $this->email[] = $email;
+    }
+    public function getEmail(){
+        return $this->email;
+    }
+
+    // CONSTRUCTOR
+
+    public function __construct(
+        $prenom = "Prénom",
+        $nom = "Nom",
+        $couleursYeux = "marron",
+        $couleursCheveux = "brun",
+        $taille = "2m",
+        $poid = "80kg",
+        $langue = "Français",
+        $niveauLangue = 2,
+        $sms = [],
+        $panier = [],
+        $email = []
+    )
+    {
+        $this->couleursYeux = $couleursYeux;
+        $this->couleursCheveux = $couleursCheveux;
+        $this->taille = $taille;
+        $this->poid = $poid;
+        $this->langue = $langue;
+        $this->niveauLangue = $niveauLangue;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->sms = $sms;
+        $this->panier = $panier;
+        $this->email = $email;
+        if(self::$compteurHumain > self::NOMBRE_HUMAIN_MAX) {
+            throw new Exception("Il y a trop d'humain", 1);
+        }
+        self::$compteurHumain++;
+        
     }
 
     /**
@@ -349,6 +432,9 @@ class Humain {
     *
     */
     public function modifyQuantity(Produit $produit, $quantity){
+        if($quantity == $this->panier[array_search($produit, $this->panier)]->getQuantite() ){
+            throw new Exception("Erreur la quantité est la même", 1);           
+        }
         $this->panier[array_search($produit, $this->panier)]->setQuantite($quantity); 
     }
     
@@ -356,6 +442,11 @@ class Humain {
     public function moyennePrixPanier() {
         $moyenne = 0;
         
+        if(count($this->panier)==0) {
+            throw new Exception("Le panier est vide, impossible de calculer la moyenne de prix", 1);
+            
+        }
+
         foreach($this->panier as $produit) {
             $moyenne += intval($produit->getPrix());
         }
@@ -364,7 +455,7 @@ class Humain {
         return $moyenne;
     }
 
-     public function stealCart(Humain $cible){
+    public function stealCart(Humain $cible){
         $this->setPanier($cible->getPanier());
         $cible->setPanier(null);
     }
