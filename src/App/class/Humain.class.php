@@ -5,6 +5,8 @@
 */
 class Humain {
 
+    // Appel du trait
+    use EvolQuantite;
 
     /**
     * Attributs de classe
@@ -62,6 +64,9 @@ class Humain {
 
     protected $email = [];
 
+    protected $quantite;
+    
+    
     // Attribut static
     protected static $compteurHumain = 0;
 
@@ -444,7 +449,8 @@ class Humain {
     }
     
 
-    public function moyennePrixPanier() {
+    public function moyennePrixPanier()
+    {
         $moyenne = 0;
         
         if(count($this->panier)==0) {
@@ -452,7 +458,8 @@ class Humain {
             
         }
 
-        foreach($this->panier as $produit) {
+        foreach($this->panier as $produit)
+        {
             $moyenne += intval($produit->getPrix());
         }
         $moyenne = $moyenne / count($this->panier);
@@ -460,13 +467,55 @@ class Humain {
         return $moyenne;
     }
 
-    public function stealCart(Humain $cible){
+    public function stealCart(Humain $cible)
+    {
         $this->setPanier($cible->getPanier());
         $cible->setPanier(null);
     }
 
+    public function desactivation(Produit $produit)
+    {
+            $produit->setEnabled(false);
+    }
 
+    // METHODES STATIQUES
 
+    public static function comparerResolution(Tablette $tablette, Smartphone $smartphone)
+    {
+      $maxResoSmart = max($smartphone->getResolution());
+      $maxResoTable = max($tablette->getResolution());
+
+      if($maxResoSmart>$maxResoTable) {
+        return $smartphone->getTitre();
+      } else {
+        return $tablette->getTitre();
+      }
+
+    }
+
+    public static function comparerPoid(
+        Tablette $tablette1,
+        Tablette $tablette2
+    )
+    {
+        if($tablette1->getPoid()>$tablette2->getPoid()) {
+            return $tablette1->getTitre();
+        } else {
+            return $tablette2->getTitre();
+        }
+    }
+
+    public static function comparerPrix (
+        Tablette $tablette1,
+        Produit $produit
+    )
+    {
+       if($tablette1->getPrix()>$produit->getPrix()) {
+            return $tablette1->getTitre();
+        } else {
+            return $produit->getTitre();
+        } 
+    }
 }
 
 

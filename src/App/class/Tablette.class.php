@@ -1,7 +1,10 @@
 <?php
 
 class Tablette extends Produit 
-{
+{   
+    // Appel du trait
+    use EvolQuantite;
+
     protected   $orientation,
                 $poid,
                 $capacite,
@@ -52,22 +55,6 @@ class Tablette extends Produit
            throw new Exception("nous avons besoin d'un tableau de chaine de caractères", 1);       
        }
     }
-
-
-    // METHODES STATIQUES
-
-    public static function comparerPoid(
-        Tablette $tablette1,
-        Tablette $tablette2
-    )
-    {
-        if($tablette1->getPoid()>$tablette2->getPoid()) {
-            return $tablette1->getTitre();
-        } else {
-            return $tablette2->getTitre();
-        }
-    }
-
 }
 
 

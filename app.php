@@ -21,16 +21,18 @@
 */
 
 // inclusion de ma Classe Humain (fichier)
-include "src/App/Humain.php";
-include "src/App/Enabled.php";
-include "src/App/Produit.php";
-include "src/App/Smartphone.php";
-include "src/App/Commentaire.php";
-include "src/App/Manager.php";
-include "src/App/Etudiant.php";
-include "src/App/CheapProduit.php";
-include "src/App/ProduitTTC.php";
-include "src/App/Tablette.php";
+include "src/App/class/CMS.class.php";
+include "src/App/trait/EvolQuantite.trait.php";
+include "src/App/class/Humain.class.php";
+include "src/App/interface/Enabled.interface.php";
+include "src/App/class/Produit.class.php";
+include "src/App/class/Smartphone.class.php";
+include "src/App/class/Commentaire.class.php";
+include "src/App/class/Manager.class.php";
+include "src/App/class/Etudiant.class.php";
+include "src/App/class/CheapProduit.class.php";
+include "src/App/class/ProduitTTC.class.php";
+include "src/App/class/Tablette.class.php";
 
 // création d'un objet (ou instance de classe)
 $alexandre = new Humain();
@@ -295,15 +297,48 @@ $tablette1= new Tablette("aiePadePrau","horizontal",100,"32Go",2,[1920,1080],["W
 $tablette2= new Tablette("universPhablet7","vertical",200,"64Go",6,[1900,1600],["Wifi"],"Vert");
 
 echo '<pre>';
-echo(Tablette::comparerPoid($tablette1,$tablette2));
+echo(Humain::comparerPoid($tablette1,$tablette2));
 echo '</pre>';
 
 echo '<pre>';
-echo(Produit::comparerResolution($tablette1,$iPhone));
+echo(Humain::comparerResolution($tablette1,$iPhone));
 echo '</pre>';
 
-// BDD OO avec PDO
+echo '<pre>';
+echo(Humain::comparerPrix($tablette1,$iPhone));
+echo '</pre>';
 
+var_dump($iPhone->getEnabled());
+
+$regis->desactivation($iPhone);
+
+var_dump($iPhone->getEnabled());
+
+echo '<pre>';
+var_dump ($comment1->getDate());
+echo '</pre>';
+echo "<br />";
+echo "La date au format Anglais : " . $comment1->formatterDate($comment1->getDate(),"en");
+echo "<br />";
+echo "La date au format Français : " . $comment1->formatterDate($comment1->getDate(),"fr");
+echo "<br />";
+
+
+
+$tablette1->setQuantite(10);
+
+echo $tablette1->getQuantite();
+echo "<br />";
+$tablette1->plusUnQuantite();
+echo $tablette1->getQuantite();
+$tablette1->moinsUnQuantite();
+echo "<br />";
+echo $tablette1->getQuantite();
+
+
+
+
+// BDD OO avec PDO
 
 /*$db = new PDO('mysql:host=localhost;dbname=php4', 'root', 'root');
 $manager = new Manager($db);

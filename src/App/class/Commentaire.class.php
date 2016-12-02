@@ -1,6 +1,6 @@
 <?php
 
-  class Commentaire implements Enabled {
+  class Commentaire extends CMS implements Enabled {
 
     public static $compteurCom10 = 0; 
     public static $notesCom = []; 
@@ -172,6 +172,16 @@
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    public function formatterDate($date,$langue)
+    {
+        if($langue === "fr")
+        {
+        return date( "d-m-Y" , strtotime($date));
+        } else {
+        return date( "Y-m-d" , strtotime($date));
+        }
     }
 
 

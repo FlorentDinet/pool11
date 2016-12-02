@@ -3,6 +3,9 @@
 
 class Smartphone extends Produit {
 
+    // Appel du trait
+    use EvolQuantite;
+
     protected $capacite = "16go";
     protected $poid;
     protected $resolution = ['1900', '1600'];
@@ -44,6 +47,7 @@ class Smartphone extends Produit {
         $this->capacite = $capacite;
         $this->poid = $poid;
         $this->resolution = $resolution;
+        $this->setEnabled(true);
     }
 
 

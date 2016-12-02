@@ -28,7 +28,7 @@ class Produit implements Enabled {
       int $taxe = 20,
       array $colors = [],
       array $accessoire = [],
-      bool $enabled = false
+      bool $enabled = true
     )
     {
       $this->setTitre($titre);
@@ -38,7 +38,7 @@ class Produit implements Enabled {
       $this->setTaxe($taxe);
       $this->setColors($colors);
       $this->setAccessoire($accessoire);
-      $this->setEnabled(true);
+      $this->setEnabled($enabled);   
     }
 
   /**
@@ -128,10 +128,6 @@ class Produit implements Enabled {
     return $this->enabled;
   }
 
-
-
-
-
   // METHODES
 
   public function getAccessoire(){
@@ -164,23 +160,5 @@ class Produit implements Enabled {
     public function ajoutAccessoire(array $newAccessoire){
         $this->accessoire = 
         array_merge($this->accessoire, $newAccessoire);
-    }
-
-    // METHODES STATIQUES
-
-    public static function comparerResolution(Tablette $tablette, Smartphone $smartphone)
-    {
-      $maxResoSmart = max($smartphone->getResolution());
-      $maxResoTable = max($tablette->getResolution());
-
-      if($maxResoSmart>$maxResoTable) {
-        return $smartphone->getTitre();
-      } else {
-        return $tablette->getTitre();
-      }
-
-    }
-
-
-   
+    }  
  }
